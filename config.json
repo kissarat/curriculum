@@ -1,0 +1,28 @@
+{
+    "http": {
+        "host": "localhost",
+        "port": 8080
+    },
+
+    "db": "postgres://taras:1@localhost/curriculum",
+    "session": {
+        "clear_interval": 5,
+        "age": 15,
+        "length": 24,
+        "chars": "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+    },
+    "password": {
+        "hash": "sha1",
+        "chars": "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_!@#$^&|-+*/:?()[]{}<>",
+        "min": 8,
+        "max": 16
+    },
+
+    "smtp": {
+        "service": "Gmail",
+        "auth": {
+            "user": "kissarat@gmail.com",
+            "pass": "rwpwqaidjcnoypxs"
+        }
+    }
+}
