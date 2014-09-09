@@ -24,5 +24,10 @@
             "user": "kissarat@gmail.com",
             "pass": "rwpwqaidjcnoypxs"
         }
+    },
+
+    "test": {
+        "enable": true,
+        "member": "mads_preusig"
     }
 }
