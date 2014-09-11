@@ -1,7 +1,13 @@
 {
-    "http": {
+    "main": {
         "host": "localhost",
         "port": 8080
+    },
+
+    "admin": {
+        "host": "localhost",
+        "port": 8081,
+        "enable": true
     },
 
     "db": "postgres://taras:1@localhost/curriculum",

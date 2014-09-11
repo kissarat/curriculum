@@ -1,0 +1,14 @@
+{
+    "member": {
+        "admin": {
+            "email": "kissarat@gmail.com",
+            "password": "admin",
+            "first_name": "Taras",
+            "last_name": "Labiak",
+            "kind": "admin"
+        },
+        "anonymous": {
+            "kind": "anonymous"
+        }
+    }
+}

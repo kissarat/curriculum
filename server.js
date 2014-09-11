@@ -6,17 +6,29 @@ const
     http = require('http'),
     url = require('url'),
     pg = require('pg'),
-    qs = require('querystring');
+    unix_error = require('./unix_error'),
+    qs = require('querystring'),
+
+    init = require('./test/init')
+    ;
 
 Object.freeze(config);
 const db = new pg.Client(config.db);
 const entities = [];
-const member_kind = {
-    admin: 0,
-    student: 1,
-    teacher: 2
+const role = {
+    anonymous: 0,
+    admin: 1,
+    student: 2,
+    teacher: 4
 };
-Object.freeze(member_kind);
+Object.freeze(role);
+var online = {};
+setInterval(function() {
+    const now = Date.now();
+    for (var salt in online)
+        if (online[salt].timeout > now)
+            delete online[salt];
+}, config.session.clear_interval * 60 * 1000);
 
 function debug(message) {
     console.log(clc.yellow(message));
@@ -60,9 +72,12 @@ const server = http.createServer(function(req, res) {
             error: err
         }));
         access_log(err);
+        return true;
     }
 
     function error(message) {
+        if ('object' == typeof message && unix_error[message.code])
+            message = unix_error[message.code];
         json(null, message);
     }
 
@@ -106,15 +121,38 @@ const server = http.createServer(function(req, res) {
     }
 
     function login(call) {
-        if (config.test.enable && !session.salt) {
-            session = {id:config.test.member};
-            const callback = call;
-            call = function(member) {
-                store({salt:member.salt});
-                callback(member);
+        if (loc.query.test && !config.test.enable)
+            return json(loc.query.test, 'Server is not run in testing mode');
+
+        if (session.salt) {
+            me = online[session.salt];
+            function update_online(member) {
+                member.last = Date.now();
+                member.timeout = me.last + config.session.age * 60 * 1000;
             }
+
+            if (me) {
+                update_online(me);
+                call(me);
+            }
+            else
+                query(select({table: 'member', where: session}), single('You must be authorized', function(member) {
+                    update_online(member);
+                    online[member.salt] = member;
+                    call(member);
+                }));
         }
-        query(select({table: 'member', where: session}), single('You must be authorized', call));
+        else {
+            var id = 'anonymous';
+            if (config.test.enable) {
+                id = loc.query.test;
+                delete loc.query.test;
+            }
+            me = init.member[id];
+            me.salt = salt();
+            store({salt: me.salt});
+            call(me);
+        }
     }
 
     function optional(params, dst, src) {
@@ -154,6 +192,13 @@ const server = http.createServer(function(req, res) {
         return sql.join(' ');
     }
 
+    function update(_) {
+        correct(_);
+        var sql = ['update', _.table, 'set',
+            q_object(_.data, ','), _.where];
+        return sql.join(' ');
+    }
+
     function remove(_) {
         correct(_);
         var sql = ['delete from', _.table, _.where];
@@ -183,7 +228,8 @@ const server = http.createServer(function(req, res) {
 
     function access_log(message) {
         var file = me ? me.id : 'anonymous';
-        var row = [Date.now(), req.connection.remoteAddress, req.method, req.url];
+        var row = [Date.now().toString(36),
+            req.connection.remoteAddress, req.method, req.url];
         if (message)
             row.push(message);
         fs.appendFile('log/' + file, row.join('\t') + '\n');
@@ -225,6 +271,16 @@ const server = http.createServer(function(req, res) {
                         json(member);
                     })
                 );
+            },
+            PATCH: function(data) {
+                routes.auth.DELETE(data);
+                query(update({where:{salt:data}}))
+            },
+            DELETE: function(new_salt) {
+                if (delete online[session.salt])
+                    store({salt: new_salt || salt()});
+                else
+                    json(session.salt, 'Member with ' + session.salt + ' salt is not online');
             }
         },
 
@@ -234,6 +290,9 @@ const server = http.createServer(function(req, res) {
                     res.setHeader('content-type', 'text/plain');
                     res.end(data);
                 })
+            },
+            DELETE: {
+
             }
         },
 
@@ -247,7 +306,7 @@ const server = http.createServer(function(req, res) {
                 assign: function() {
                     return {id:me.id};
                 },
-                fields: ['id', 'email', 'first_name', 'last_name']
+                fields: ['id', 'email', 'first_name', 'last_name', 'salt']
             },
 
             POST: function(data) {
@@ -262,7 +321,7 @@ const server = http.createServer(function(req, res) {
 //                if (kind = parseInt(data.kind))
 //                    data.kind = kind;
 //                else
-//                    data.kind = member_kind[data.kind];
+//                    data.kind = role[data.kind];
                 query(insert({data:data}), function() {
                     query(select({fields: ['id', 'kind'], where:{id:data.id}}),
                         single('User did not created', json));
@@ -290,7 +349,7 @@ const server = http.createServer(function(req, res) {
 
             GET: {},
             POST: {
-                role: member_kind.teacher
+                role: role.teacher
             },
             DELETE: {}
         },
@@ -300,32 +359,34 @@ const server = http.createServer(function(req, res) {
 
             GET: {},
             POST: {
-//                role: member_kind.teacher
+//                role: role.teacher
             },
             DELETE: {
-                role: member_kind.teacher
+                role: role.teacher
             }
         }
     };
 
     const loc = url.parse(req.url);
     const entity = loc.pathname.slice(1);
-    var handler;
-    if (entity) {
-        if (entities.indexOf(entity) < 0 && Object.keys(routes).indexOf(entity) < 0)
-            return error('No such entity ' + entity);
-        if (!routes[entity] || !routes[entity][req.method])
-            return error('No ' + req.method + ' handler for ' + entity);
-        else {
-            route = routes[entity];
-            handler = route[req.method];
-        }
-    }
+
     if (loc.query)
         loc.query = qs.parse(loc.query);
-    login(function(member) {
-        me = member;
 
+    function act(entity, method) {
+        if (!method)
+            method = req.method;
+        var handler;
+        if (entity) {
+            if (entities.indexOf(entity) < 0 && Object.keys(routes).indexOf(entity) < 0)
+                return error('No such entity ' + entity);
+            if (!routes[entity] || !routes[entity][method])
+                return error('No ' + method + ' handler for ' + entity);
+            else {
+                route = routes[entity];
+                handler = route[method];
+            }
+        }
         switch (typeof handler) {
             case 'string':
                 return json(null, handler);
@@ -334,18 +395,34 @@ const server = http.createServer(function(req, res) {
                     return json(null, 'Access deny');
                 handler = handler.method;
                 if (!handler)
-                    handler = defaults[req.method];
+                    handler = defaults[method];
         }
+        return handler || closure(error, 'Handler not found');
+    }
+
+    login(function(member) {
+        me = member;
 
         switch (req.method) {
             case 'POST':
+            case 'PATCH':
                 req.data = [];
                 req.on('data', function(data) {
                     req.data.push(data);
                 });
                 req.on('end', function() {
                     req.data = req.data.join('');
-                    req.data = qs.parse(req.data);
+                    switch (req.headers['content-type']) {
+                        case 'application/x-www-form-urlencoded':
+                            req.data = qs.parse(req.data);
+                            break;
+                        case 'text/json':
+                        case 'application/json':
+                            req.data = JSON.parse(req.data);
+                            break;
+                        default:
+                            break;
+                    }
                     handler(req.data);
                 });
                 break;
@@ -368,7 +445,6 @@ const server = http.createServer(function(req, res) {
         }
     });
 });
-
 
 function values(data) {
     var result = [];
@@ -401,11 +477,11 @@ function slice_id(str) {
     return str.toLowerCase();
 }
 
-function q_object(obj) {
+function q_object(obj, sep) {
     var result = [];
     for(var key in obj)
         result.push(q(key) + '=' + q(obj[key], "'"));
-    return result.join(' and ');
+    return result.join(sep || ' and ');
 }
 
 function hash(password) {
@@ -432,6 +508,12 @@ function salt(length, chars) {
     return password.join('');
 }
 
+function closure(func) {
+    const args = Array.prototype.slice.call(arguments);
+    args[0] = this;
+    return Function.prototype.bind.apply(func, arguments);
+}
+
 db.connect(function(err) {
     if (err)
         return console.error(err);
@@ -440,5 +522,5 @@ db.connect(function(err) {
             entities.push(result.rows[i]['table_name']);
     });
 //    console.error('\033[31m');
-    server.listen(config.http.port, config.http.host);
+    server.listen(config.main.port, config.main.host);
 });

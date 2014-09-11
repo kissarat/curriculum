@@ -32,3 +32,4 @@
 1410261256741	127.0.0.1	POST	/subject	No POST handler for subject
 1410261256746	127.0.0.1	POST	/subject	No POST handler for subject
 1410261256770	127.0.0.1	POST	/subject	No POST handler for subject
+hzx500cz	127.0.0.1	GET	/	error: relation "member" does not exist

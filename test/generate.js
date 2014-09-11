@@ -61,6 +61,18 @@ function generate(i) {
 
     var data;
     switch (entity) {
+        case 'init':
+            data = function(call) {
+                db.query('insert into member(id,password,email,first_name,last_name)', function(err, result) {
+                    var link = dataset.rand('links');
+                    call({
+                        subject: result.rows[0].id,
+                        name: link[0],
+                        link: link[1]
+                    });
+                });
+            };
+            break;
         case 'member':
             data = {
                 first_name: dataset.rand('first_names'),
@@ -94,7 +106,7 @@ function generate(i) {
     }
 
     function request(d) {
-        d = qs.stringify(d);
+        d = d ? qs.stringify(d) : null;
         req.setHeader('cookie', qs.stringify(cookies, '; '));
         req.on('error', error);
         req.end(d);
