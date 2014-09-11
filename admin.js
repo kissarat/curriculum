@@ -1,6 +1,8 @@
 const
     config = require('./config'),
+    fs = require('fs'),
     http = require('http'),
+    pg = require('pg'),
     url = require('url');
 
 const deny = {
@@ -11,6 +13,11 @@ const deny = {
 module.exports = function(req, res) {
     const loc = url.parse(req.url);
     const p = loc.pathname.slice(1).split('/');
+    if ('install' == p[0]) {
+        const schema = fs.readFileSync('schema.sql');
+        return;
+    }
+
     function tablet(obj) {
         var table = ['<table border="1">'];
         var object_deny = deny[Object == obj.constructor
