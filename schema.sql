@@ -16,6 +16,11 @@ create table member (
   kind smallint not null default 1
 );
 
+insert into member values (
+  'admin', 'kissarat@gmail.com', 'admin',
+  '0DPiKuNIrrVmD8IUCuw1hQxNqZc=', 'admin',
+  'Taras', 'Labiak', 0);
+
 create table subject (
   id char(16) primary key,
   "name" varchar(128),

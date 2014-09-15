@@ -28,6 +28,6 @@
 
     "test": {
         "enable": true,
-        "member": "mads_preusig"
+        "member": "admin"
     }
 }

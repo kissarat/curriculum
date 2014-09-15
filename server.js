@@ -28,8 +28,9 @@ const server = http.createServer(function(req, res) {
         res.writeHead(404);
         return res.end();
     }
-
     debug(req.url);
+
+    //region Response
     var session;
     if (session = req.headers['cookie'])
         session = qs.parse(session, '; ');
@@ -75,6 +76,17 @@ const server = http.createServer(function(req, res) {
         }
     }
 
+    function access_log(message) {
+        var file = me ? me.id : 'anonymous';
+        var row = [Date.now(), req.connection.remoteAddress, req.method, req.url];
+        if (message)
+            row.push(message);
+        fs.appendFile('log/' + file, row.join('\t') + '\n');
+    }
+
+    //endregion
+
+    //region Database
     function query(sql, call) {
         if (!call)
             call = function(result) {
@@ -159,36 +171,9 @@ const server = http.createServer(function(req, res) {
         var sql = ['delete from', _.table, _.where];
         return sql.join(' ');
     }
+    //endregion
 
-    function concat() {
-        var array = [];
-        for(var i in arguments)
-            if (arguments[i] instanceof Array)
-                array = array.concat(arguments[i]);
-        return array;
-    }
-
-    function object() {
-        var obj = {};
-        for(var i in arguments) {
-            var arg = arguments[i];
-            if ('function' == typeof arg)
-                arg = arg();
-            if ('object' == typeof arg)
-                for(var key in arg)
-                    obj[key] = arg[key];
-        }
-        return obj;
-    }
-
-    function access_log(message) {
-        var file = me ? me.id : 'anonymous';
-        var row = [Date.now(), req.connection.remoteAddress, req.method, req.url];
-        if (message)
-            row.push(message);
-        fs.appendFile('log/' + file, row.join('\t') + '\n');
-    }
-
+    //region Route
     const defaults = {
         GET: function() {
             var callback = route[req.method].single ? single() : null;
@@ -307,6 +292,7 @@ const server = http.createServer(function(req, res) {
             }
         }
     };
+    //endregion
 
     const loc = url.parse(req.url);
     const entity = loc.pathname.slice(1);
@@ -369,12 +355,13 @@ const server = http.createServer(function(req, res) {
     });
 });
 
-
-function values(data) {
-    var result = [];
-    for(var key in data)
-        result.push(data[key]);
-    return result;
+//region Util
+function concat() {
+    var array = [];
+    for (var i in arguments)
+        if (arguments[i] instanceof Array)
+            array = array.concat(arguments[i]);
+    return array;
 }
 
 function q(str, quote) {
@@ -385,7 +372,7 @@ function q(str, quote) {
     else if (undefined === str || null === str)
         return 'null';
     else if (str instanceof Array) {
-        for(var i in str)
+        for (var i in str)
             str[i] = q(str[i], quote);
         return str;
     }
@@ -394,16 +381,9 @@ function q(str, quote) {
 
 }
 
-function slice_id(str) {
-    if (str.length > 16)
-        str = str.slice(0, 16);
-    str = str.replace(/\s+/g, '_');
-    return str.toLowerCase();
-}
-
 function q_object(obj) {
     var result = [];
-    for(var key in obj)
+    for (var key in obj)
         result.push(q(key) + '=' + q(obj[key], "'"));
     return result.join(' and ');
 }
@@ -414,12 +394,25 @@ function hash(password) {
     return h.digest('base64');
 }
 
+function object() {
+    var obj = {};
+    for (var i in arguments) {
+        var arg = arguments[i];
+        if ('function' == typeof arg)
+            arg = arg();
+        if ('object' == typeof arg)
+            for (var key in arg)
+                obj[key] = arg[key];
+    }
+    return obj;
+}
+
 function rand(min, max) {
     if ('number' != typeof max) {
         max = min;
         min = 0;
     }
-    return min + Math.floor((max - min)*Math.random());
+    return min + Math.floor((max - min) * Math.random());
 }
 
 function salt(length, chars) {
@@ -427,10 +420,26 @@ function salt(length, chars) {
     length = length || rand(_.min, _.max);
     chars = chars || _.chars;
     var password = [];
-    for(var i=0; i<length; i++)
+    for (var i = 0; i < length; i++)
         password.push(chars[rand(chars.length)]);
     return password.join('');
 }
+
+function slice_id(str) {
+    if (str.length > 16)
+        str = str.slice(0, 16);
+    str = str.replace(/\s+/g, '_');
+    return str.toLowerCase();
+}
+
+function values(data) {
+    var result = [];
+    for (var key in data)
+        result.push(data[key]);
+    return result;
+}
+//endregion
+
 
 db.connect(function(err) {
     if (err)
