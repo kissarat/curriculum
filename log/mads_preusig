@@ -1,129 +1,118 @@
-1410259011131	127.0.0.1	POST	/member
-1410259011187	127.0.0.1	POST	/member
-1410259011227	127.0.0.1	POST	/member
-1410259011266	127.0.0.1	POST	/member
-1410259011383	127.0.0.1	POST	/member
-1410259153878	127.0.0.1	POST	/member
-1410259153969	127.0.0.1	POST	/member
-1410259154018	127.0.0.1	POST	/member
-1410259154060	127.0.0.1	POST	/member
-1410259154180	127.0.0.1	POST	/member
-1410261280481	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280503	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280510	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280527	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280530	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280533	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280535	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280537	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280591	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280599	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261280603	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261349889	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261349932	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261349962	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261349998	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350029	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350061	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350110	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350136	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350163	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350190	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261350216	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261563841	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261569173	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261569181	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261569185	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261569188	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261569191	127.0.0.1	POST	/subject	error: INSERT has more expressions than target columns
-1410261575918	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261575962	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261575997	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576029	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576062	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576094	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576147	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576174	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576207	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576233	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261576266	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261740495		POST	/subject	error: null value in column "id" violates not-null constraint
-1410261817764	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261846400	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261895389	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261895395	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261948830	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261948882	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261948919	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261948945	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261948983	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949012	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949044	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949073	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949100	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949128	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410261949156	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410262048900	127.0.0.1	POST	/subject	error: null value in column "id" violates not-null constraint
-1410262205324		POST	/subject	error: null value in column "id" violates not-null constraint
-1410262215201	127.0.0.1	POST	/subject
-1410262215221	127.0.0.1	POST	/subject
-1410262215405	127.0.0.1	POST	/subject
-1410262215421	127.0.0.1	POST	/subject
-1410262215429	127.0.0.1	POST	/subject
-1410262215454	127.0.0.1	POST	/subject
-1410262215466	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262215470	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262215475	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262215487	127.0.0.1	POST	/subject
-1410262215496	127.0.0.1	POST	/subject
-1410262295276	127.0.0.1	POST	/subject
-1410262295292	127.0.0.1	POST	/subject
-1410262295303	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295307	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295325	127.0.0.1	POST	/subject
-1410262295333	127.0.0.1	POST	/subject
-1410262295342	127.0.0.1	POST	/subject
-1410262295358	127.0.0.1	POST	/subject
-1410262295365	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295372	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295383	127.0.0.1	POST	/subject
-1410262295391	127.0.0.1	POST	/subject
-1410262295395	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295398	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295408	127.0.0.1	POST	/subject
-1410262295420	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295422	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295424	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262295433	127.0.0.1	POST	/subject
-1410262295441	127.0.0.1	POST	/subject
-1410262295445	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302571	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302579	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302587	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302590	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302678	127.0.0.1	POST	/subject
-1410262302691	127.0.0.1	POST	/subject
-1410262302694	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302698	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302705	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302710	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302712	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302715	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302724	127.0.0.1	POST	/subject
-1410262302733	127.0.0.1	POST	/subject
-1410262302741	127.0.0.1	POST	/subject
-1410262302749	127.0.0.1	POST	/subject
-1410262302758	127.0.0.1	POST	/subject
-1410262302766	127.0.0.1	POST	/subject
-1410262302768	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302769	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410262302773	127.0.0.1	POST	/subject	error: duplicate key value violates unique constraint "subject_pkey"
-1410263449542		POST	/member
-1410263449566		POST	/member
-1410263449574		POST	/member
-1410263449584		POST	/member
-1410263449592		POST	/member
-1410263449600		POST	/member
-1410263449616		POST	/member
-1410263449626		POST	/member
-1410263449643		POST	/member
+1410255115388	127.0.0.1	GET	/member?id=mads_preusig
+1410255160063	127.0.0.1	GET	/log	error: relation "log" does not exist
+1410255166504	127.0.0.1	GET	/member?id=mads_preusig
+1410255281448	127.0.0.1	GET	/member?id=mads_preusig
+1410255295910	127.0.0.1	GET	/member?id=mads_preusig
+1410255322058	127.0.0.1	GET	/member?id=mads_preusig
+1410255786471	127.0.0.1	GET	/member?id=mads_preusig	error: syntax error at end of input
+1410256038610		GET	/member?id=mads_preusig	error: syntax error at end of input
+1410256117412	127.0.0.1	GET	/member?id=mads_preusig	error: syntax error at end of input
+1410256158998	127.0.0.1	GET	/member?id=mads_preusig	error: syntax error at end of input
+1410256292871	127.0.0.1	GET	/member?id=mads_preusig
+1410256833472	127.0.0.1	GET	/member?id=mads_preusig
+1410258355543	127.0.0.1	POST	/member	error: zero-length delimited identifier at or near """"
+1410258355556	127.0.0.1	POST	/member	error: zero-length delimited identifier at or near """"
+1410258355560	127.0.0.1	POST	/member	error: zero-length delimited identifier at or near """"
+1410258355575	127.0.0.1	POST	/member	error: zero-length delimited identifier at or near """"
+1410258355582	127.0.0.1	POST	/member	error: zero-length delimited identifier at or near """"
+1410258423167	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258423176	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258423180	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258423193	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258423212	127.0.0.1	POST	/member	User did not created
+1410258479344	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258479352	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258479355	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258479358	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258479361	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258502777	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258502788	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258502794	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258502799	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258502802	127.0.0.1	POST	/member	error: null value in column "kind" violates not-null constraint
+1410258606171	127.0.0.1	POST	/member	User did not created
+1410258606219	127.0.0.1	POST	/member	User did not created
+1410258606234	127.0.0.1	POST	/member	User did not created
+1410258606240	127.0.0.1	POST	/member	User did not created
+1410258606248	127.0.0.1	POST	/member	User did not created
+1410258722159	127.0.0.1	POST	/member	User did not created
+1410258722184	127.0.0.1	POST	/member	User did not created
+1410258722192	127.0.0.1	POST	/member	User did not created
+1410258722200	127.0.0.1	POST	/member	User did not created
+1410258722267	127.0.0.1	POST	/member	User did not created
+1410258819083	127.0.0.1	POST	/member	User did not created
+1410258819153	127.0.0.1	POST	/member	User did not created
+1410258819214	127.0.0.1	POST	/member	User did not created
+1410258819284	127.0.0.1	POST	/member	User did not created
+1410258819349	127.0.0.1	POST	/member	User did not created
+1410258950915	127.0.0.1	POST	/member
+1410258951003	127.0.0.1	POST	/member
+1410258951045	127.0.0.1	POST	/member
+1410258951086	127.0.0.1	POST	/member
+1410258951128	127.0.0.1	POST	/member
+1410263326185	127.0.0.1	POST	/doc
+1410263326247	127.0.0.1	POST	/doc
+1410263326256	127.0.0.1	POST	/doc
+1410263326264	127.0.0.1	POST	/doc
+1410263326280	127.0.0.1	POST	/doc
+1410263326289	127.0.0.1	POST	/doc
+1410263326314	127.0.0.1	POST	/doc
+1410263326322	127.0.0.1	POST	/doc
+1410263326330	127.0.0.1	POST	/doc
+1410263326339	127.0.0.1	POST	/doc
+1410263326347	127.0.0.1	POST	/doc
+1410263326355	127.0.0.1	POST	/doc
+1410263326364	127.0.0.1	POST	/doc
+1410263326372	127.0.0.1	POST	/doc
+1410263326389	127.0.0.1	POST	/doc
+1410263326397	127.0.0.1	POST	/doc
+1410263326405	127.0.0.1	POST	/doc
+1410263326414	127.0.0.1	POST	/doc
+1410263326422	127.0.0.1	POST	/doc
+1410263326430	127.0.0.1	POST	/doc
+1410263326439	127.0.0.1	POST	/doc
+1410263594625		POST	/doc
+1410263602717		POST	/doc
+1410263647463	127.0.0.1	POST	/doc
+1410263647515	127.0.0.1	POST	/doc
+1410263647547	127.0.0.1	POST	/doc
+1410263647589	127.0.0.1	POST	/doc
+1410263647631	127.0.0.1	POST	/doc
+1410263647664	127.0.0.1	POST	/doc
+1410263647714	127.0.0.1	POST	/doc
+1410263647747	127.0.0.1	POST	/doc
+1410263647781	127.0.0.1	POST	/doc
+1410263647814	127.0.0.1	POST	/doc
+1410263647856	127.0.0.1	POST	/doc
+1410263647897	127.0.0.1	POST	/doc
+1410263647931	127.0.0.1	POST	/doc
+1410263647964	127.0.0.1	POST	/doc
+1410263648006	127.0.0.1	POST	/doc
+1410263648048	127.0.0.1	POST	/doc
+1410263648156	127.0.0.1	POST	/doc
+1410263648189	127.0.0.1	POST	/doc
+1410263648222	127.0.0.1	POST	/doc
+1410263648256	127.0.0.1	POST	/doc
+1410263648289	127.0.0.1	POST	/doc
+1410263832475		POST	/doc
+1410264030813	127.0.0.1	POST	/doc
+1410264030878	127.0.0.1	POST	/doc
+1410264031067	127.0.0.1	POST	/doc
+1410264031111	127.0.0.1	POST	/doc
+1410264031221	127.0.0.1	POST	/doc
+1410264031270	127.0.0.1	POST	/doc
+1410264031378	127.0.0.1	POST	/doc
+1410264031453	127.0.0.1	POST	/doc
+1410264031469	127.0.0.1	POST	/doc
+1410264031486	127.0.0.1	POST	/doc
+1410264031495	127.0.0.1	POST	/doc
+1410264031503	127.0.0.1	POST	/doc
+1410264031511	127.0.0.1	POST	/doc
+1410264031519	127.0.0.1	POST	/doc
+1410264031528	127.0.0.1	POST	/doc
+1410264031570	127.0.0.1	POST	/doc
+1410264031595	127.0.0.1	POST	/doc
+1410264031603	127.0.0.1	POST	/doc
+1410264031611	127.0.0.1	POST	/doc
+1410264031686	127.0.0.1	POST	/doc
+1410264031761	127.0.0.1	POST	/doc

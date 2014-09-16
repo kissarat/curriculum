@@ -1,12 +1,12 @@
 const
+    clc    = require('cli-color'),
     config = require('./config'),
-    clc = require('cli-color'),
     crypto = require('crypto'),
-    fs = require('fs'),
-    http = require('http'),
-    url = require('url'),
-    pg = require('pg'),
-    qs = require('querystring');
+    qs     = require('querystring'),
+    fs     = require('fs'),
+    http   = require('http'),
+    pg     = require('pg'),
+    url    = require('url');
 
 Object.freeze(config);
 const db = new pg.Client(config.db);
@@ -22,7 +22,7 @@ function debug(message) {
     console.log(clc.yellow(message));
 }
 
-const server = http.createServer(function(req, res) {
+function main(req, res) {
 
     if (req.url.indexOf('.') >= 0) {
         res.writeHead(404);
@@ -317,7 +317,8 @@ const server = http.createServer(function(req, res) {
                 return json(null, handler);
             case 'object':
                 if (handler.role && !(me.kind & handler.role))
-                    return json(null, 'Access deny');
+                    if (member_kind.admin != me.kind)
+                        return json(null, 'Access deny');
                 handler = handler.method;
                 if (!handler)
                     handler = defaults[req.method];
@@ -353,7 +354,7 @@ const server = http.createServer(function(req, res) {
                 break;
         }
     });
-});
+}
 
 //region Util
 function concat() {
@@ -448,6 +449,6 @@ db.connect(function(err) {
         for(var i in result.rows)
             entities.push(result.rows[i]['table_name']);
     });
-//    console.error('\033[31m');
+    const server = http.createServer(main);
     server.listen(config.http.port, config.http.host);
 });

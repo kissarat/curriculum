@@ -29,5 +29,12 @@ links: {"hide":"https://en.bitcoin.it/wiki/API_reference_(JSON-RPC)#","1 Control
             return [key, list[key]];
         }
         return list[Math.floor(Math.random() * list.length)];
+    },
+
+    multiple: function(name, number) {
+        var result = [];
+        for(var i=0; i<number; i++)
+            result.push(this.rand(name));
+        return result;
     }
 };

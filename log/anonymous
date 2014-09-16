@@ -32,3 +32,21 @@
 1410261256741	127.0.0.1	POST	/subject	No POST handler for subject
 1410261256746	127.0.0.1	POST	/subject	No POST handler for subject
 1410261256770	127.0.0.1	POST	/subject	No POST handler for subject
+1410744008733	127.0.0.1	POST	/member	error: permission denied for relation member
+1410744008821	127.0.0.1	POST	/member	error: permission denied for relation member
+1410744828147	127.0.0.1	POST	/member	error: permission denied for relation member
+1410744828241	127.0.0.1	POST	/member	error: permission denied for relation member
+1410745685632	127.0.0.1	POST	/member	error: permission denied for relation member
+1410745685690	127.0.0.1	POST	/member	error: permission denied for relation member
+1410745898955	127.0.0.1	POST	/member	error: permission denied for relation member
+1410745899044	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746288986	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746289050	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746339657	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746339706	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746385437	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746385489	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746396875	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746396933	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746705114	127.0.0.1	POST	/member	error: permission denied for relation member
+1410746705198	127.0.0.1	POST	/member	error: permission denied for relation member

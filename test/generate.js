@@ -23,6 +23,46 @@ function connect_db(call) {
     });
 }
 
+function populate(array, number) {
+    for(var i=0; i<number; i++)
+        array.push(array[i]);
+}
+
+function formNumber(number, width) {
+    if (!width)
+        width = 2;
+    return ('0000' + number).slice(-width);
+}
+
+function property_list(array, property) {
+    if (!property)
+        property = 'id';
+    var result = [];
+    for(var i in array)
+        result.push(array[i][property]);
+    return result;
+}
+
+function rand_id(table, call) {
+    db.query('select id from ' + table + ' order by random() limit 1', function(err, result) {
+        if (err)
+            console.error(clc.red(err));
+        else
+            call(result.rows[0].id);
+    });
+}
+
+function formatDate(d) {
+    if (!d)
+        d = new Date();
+    return d.getFullYear()
+        + '-' + formNumber(d.getMonth() + 1)
+        + '-' + formNumber(d.getDate())
+        + ' ' + formNumber(d.getHours())
+        + ':' + formNumber(d.getMinutes())
+        + ':' + formNumber(d.getSeconds());
+}
+
 function error(err) {
     var message = unix_error[err.code];
     if (!message)
@@ -44,11 +84,12 @@ function generate(i) {
     }, function (res) {
         res.on('error', error);
         res.on('data', function (data) {
-            console.log(data.toString());
+            console.log(clc.blueBright(i) + ' ' + data.toString());
         });
         res.on('end', function () {
+            i--;
             if (i > 0)
-                generate(--i);
+                generate(i);
             else
                 process.exit();
         });
@@ -61,6 +102,18 @@ function generate(i) {
 
     var data;
     switch (entity) {
+        case 'doc':
+            data = function(call) {
+                rand_id('subject', function(subject) {
+                    var link = dataset.rand('links');
+                    call({
+                        subject: subject,
+                        name: link[0],
+                        link: link[1]
+                    });
+                });
+            };
+            break;
         case 'member':
             data = {
                 first_name: dataset.rand('first_names'),
@@ -69,22 +122,25 @@ function generate(i) {
             };
             data.email = data.first_name + '_' + data.last_name + '@gmail.com';
             break;
+        case 'notification':
+            data = function(call) {
+                rand_id('subject', function(subject) {
+                    rand_id('member', function(member) {
+                        const now = Date.now();
+                        call({
+                            subject: subject,
+                            whom: member,
+                            when: formatDate(new Date(now + Math.random()*10*1000*1000*1000)),
+                            body: dataset.multiple('sentences', 2).join('. ')
+                        });
+                    });
+                });
+            };
+            break;
         case 'subject':
             data = {
                 name: dataset.rand('cities'),
                 color: rand(256) * 0xFFFF + rand(256) * 0xFF + rand(256)
-            };
-            break;
-        case 'doc':
-            data = function(call) {
-                db.query('select id from subject order by random() limit 1', function(err, result) {
-                    var link = dataset.rand('links');
-                    call({
-                        subject: result.rows[0].id,
-                        name: link[0],
-                        link: link[1]
-                    });
-                });
             };
             break;
         default:
@@ -106,7 +162,7 @@ function generate(i) {
         request(data);
 }
 
-if (['doc'].indexOf(entity) >= 0)
+if (['doc', 'notification'].indexOf(entity) >= 0)
     connect_db(generate.bind(this, number));
 else
     generate(number);
