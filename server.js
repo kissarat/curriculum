@@ -5,6 +5,7 @@ const
     qs     = require('querystring'),
     fs     = require('fs'),
     http   = require('http'),
+    meta   = require('./meta'),
     pg     = require('pg'),
     url    = require('url');
 
@@ -106,7 +107,7 @@ function main(req, res) {
 
     function single(error_msg, call) {
         if (!error_msg)
-            error_msg = 'More than one ' + entity + ' found';
+            error_msg = 'More than one ' + entity_name + ' found';
         if (!call)
             call = json;
         return function(result) {
@@ -142,7 +143,7 @@ function main(req, res) {
 
     function correct(_) {
         if (!_.table)
-            _.table = q(entity);
+            _.table = q(entity_name);
         if (!_.where)
             _.where = loc.query;
         _.where = _.where ? 'where ' + q_object(_.where) : '';
@@ -176,18 +177,42 @@ function main(req, res) {
     //region Route
     const defaults = {
         GET: function() {
-            var callback = route[req.method].single ? single() : null;
+            var callback = route[req.method].single ? single() : Function();
             query(select({where: optional(
                 concat(route.optional, route[req.method].optional),
                 object(route.assign, route[req.method].assign)
-            )}), callback);
+            )}), function(result) {
+                forEntity(function(column, name) {
+                    result.rows.forEach(function(row) {
+                        if ('char' == column.type)
+                            row[name] = row[name].trim();
+                    });
+                });
+                callback(result);
+            });
         },
 
-        POST: function() {
+        POST: function(data) {
             var filter = route.POST.filter;
             if (filter)
-                filter(req.data);
-            query(insert({data:req.data}));
+                filter(data);
+            forEntity(function (column, name) {
+                const $ = data[name];
+                if (!column.is_nullable && !column.default && !$ && 0 !== $)
+                    throw new HttpError(400, name + 'is required');
+                if (column.foreign_table) {
+                    query(select({
+                        table: column.foreign_table,
+                        where: dict(name, $)
+                    }), function(result) {
+                        if (0 == result.rowCount)
+                            throw HttpError(400, 'There are no ' +
+                                 column.foreign_table + ' with ' + column.foreign_column + '=' + $);
+                    });
+                }
+
+            });
+            query(insert({data:data}));
         },
         DELETE: function() {
             query(remove({where: optional(
@@ -206,7 +231,7 @@ function main(req, res) {
                 delete data.password;
                 query(select({fields: 'salt'}), single('No such user or password',
                     function(member) {
-                        store(member);
+                       store(member);
                         json(member);
                     })
                 );
@@ -237,9 +262,9 @@ function main(req, res) {
 
             POST: function(data) {
                 if (!data.id)
-                    data.id = slice_id(data.last_name + '_' + data.first_name);
+                     data.id = slice_id(data.last_name + '_' + data.first_name);
                 if (!data.password)
-                    data.password = salt(null, config.session.chars);
+                     data.password = salt(null, config.session.chars);
                 data.password_hash = hash(data.password);
 //                delete data.password;
                 data.salt = salt(rand(12, 32), config.session.chars);
@@ -258,7 +283,7 @@ function main(req, res) {
         subject: {
             POST:{
                 filter: function(subject) {
-                    if(subject.id)
+                    if (subject.id)
                         subject.id = subject.id.trim();
                     else
                         subject.id = slice_id(subject.name);
@@ -295,23 +320,23 @@ function main(req, res) {
     //endregion
 
     const loc = url.parse(req.url);
-    const entity = loc.pathname.slice(1);
+    const entity_name = loc.pathname.slice(1);
     var handler;
-    if (entity) {
-        if (entities.indexOf(entity) < 0 && Object.keys(routes).indexOf(entity) < 0)
-            return error('No such entity ' + entity);
-        if (!routes[entity] || !routes[entity][req.method])
-            return error('No ' + req.method + ' handler for ' + entity);
+    if (entity_name) {
+        if (entities.indexOf(entity_name) < 0 && Object.keys(routes).indexOf(entity_name) < 0)
+            return error('No such entity ' + entity_name);
+        if (!routes[entity_name] || !routes[entity_name][req.method])
+            return error('No ' + req.method + ' handler for ' + entity_name);
         else {
-            route = routes[entity];
+            route = routes[entity_name];
             handler = route[req.method];
         }
     }
+    const forEntity = forEach.bind(entities[entity_name]);
     if (loc.query)
         loc.query = qs.parse(loc.query);
     login(function(member) {
         me = member;
-
         switch (typeof handler) {
             case 'string':
                 return json(null, handler);
@@ -347,7 +372,7 @@ function main(req, res) {
                 break;
             case 'GET':
             default:
-                if (!entity)
+                if (!entity_name)
                     return json(entities);
                // query('select * from ' + q(entity));
                 handler.call(route.GET);
@@ -363,6 +388,33 @@ function concat() {
         if (arguments[i] instanceof Array)
             array = array.concat(arguments[i]);
     return array;
+}
+
+function dict() {
+    var result = {};
+    for(var i=0; i<arguments.length; i += 2)
+        result[arguments[i]] = arguments[1 + i];
+    return result;
+}
+
+function NotImplemented() {}
+
+function HttpError(code, message, headers) {
+    this.code = code;
+    this.message = message;
+    if (headers)
+        throw new NotImplemented();
+}
+
+HttpError.prototype.toString = function() {
+    return this.message;
+};
+
+function forEach(call) {
+    for (var name in this)
+        if (false === call(this[name], name))
+            return false;
+    return true;
 }
 
 function q(str, quote) {
@@ -445,10 +497,23 @@ function values(data) {
 db.connect(function(err) {
     if (err)
         return console.error(err);
-    db.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'", function(err, result) {
-        for(var i in result.rows)
-            entities.push(result.rows[i]['table_name']);
+    const auto = {default:true};
+    meta.columns(db, {
+        member: {
+            password: auto,
+            password_hash: auto
+//            kind: {validate: function() {}}
+        }
     });
-    const server = http.createServer(main);
+    const server = http.createServer(function(req, res) {
+        try {
+            main(req, res);
+        } catch(ex) {
+            res.writeHead(ex.code || 502, ex.headers);
+            res.end(JSON.stringify({
+                error: ex.toString()
+            }));
+        }
+    });
     server.listen(config.http.port, config.http.host);
 });
